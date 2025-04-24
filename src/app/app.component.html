@@ -1,0 +1,5 @@
+<navbar class="top-bar" (sidebarToggle)="onSidebarToggle()"></navbar>
+<sidebar class="top-bar__side-bar" [class.open]="isSidebarOpen"></sidebar>
+<div class="top-bar__content-section">
+    <router-outlet></router-outlet>
+</div>
