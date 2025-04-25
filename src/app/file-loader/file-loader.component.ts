@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { UserService, User } from '../../shared/user.service';
 
 @Component({
@@ -7,12 +7,32 @@ import { UserService, User } from '../../shared/user.service';
   styleUrls: ['./file-loader.component.scss'],
   standalone: true,
 })
-export class FileLoaderComponent {
+export class FileLoaderComponent implements OnInit, OnDestroy {
   csvData: User[] = []; // Data extracted from the CSV file
   selectedFile: File | null = null; // File selected by the user
   loading = false;
 
   constructor(private userService: UserService) {}
+
+  ngOnInit(): void {
+    // Restore the state from localStorage when the component is initialized
+    const savedCsvData = localStorage.getItem('csvData');
+    const savedFileName = localStorage.getItem('selectedFileName');
+
+    if (savedCsvData) {
+      this.csvData = JSON.parse(savedCsvData);
+    }
+
+    if (savedFileName) {
+      this.selectedFile = new File([], savedFileName); // Placeholder for the file name
+    }
+  }
+
+  ngOnDestroy(): void {
+    // Save the state to localStorage when the component is destroyed
+    localStorage.setItem('csvData', JSON.stringify(this.csvData));
+    localStorage.setItem('selectedFileName', this.selectedFile?.name || '');
+  }
 
   // Handle file selection
   onFileSelected(event: Event): void {
@@ -36,6 +56,9 @@ export class FileLoaderComponent {
           return { firstName, lastName, email, address } as User;
         })
         .filter((user) => user.firstName && user.lastName); // Filter out invalid rows
+
+      // Save the parsed data to localStorage
+      localStorage.setItem('csvData', JSON.stringify(this.csvData));
     };
     reader.readAsText(file);
   }
@@ -54,6 +77,10 @@ export class FileLoaderComponent {
         this.loading = false;
         this.csvData = []; // Clear the table after upload
         this.selectedFile = null;
+
+        // Clear the saved state
+        localStorage.removeItem('csvData');
+        localStorage.removeItem('selectedFileName');
       },
       error: (err) => {
         console.error('Error uploading file:', err);
@@ -62,4 +89,12 @@ export class FileLoaderComponent {
       },
     });
   }
+
+  clearData(): void {
+    this.csvData = []; // Svuota i dati CSV
+    this.selectedFile = null; // Rimuove il file selezionato
+    localStorage.removeItem('csvData'); // Cancella i dati salvati nel localStorage
+    localStorage.removeItem('selectedFileName'); // Cancella il nome del file salvato
+  }
+
 }
