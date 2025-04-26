@@ -18,13 +18,15 @@ export class FileLoaderComponent implements OnInit, OnDestroy {
     // Restore the state from localStorage when the component is initialized
     const savedCsvData = localStorage.getItem('csvData');
     const savedFileName = localStorage.getItem('selectedFileName');
+    const savedCsvContent = localStorage.getItem('csvContent');
 
     if (savedCsvData) {
       this.csvData = JSON.parse(savedCsvData);
     }
 
-    if (savedFileName) {
-      this.selectedFile = new File([], savedFileName); // Placeholder for the file name
+    if (savedFileName && savedCsvContent !== null) {
+      const blob = new Blob([savedCsvContent], { type: 'text/csv' });
+      this.selectedFile = new File([blob], savedFileName, { type: 'text/csv' });
     }
   }
 
@@ -59,6 +61,7 @@ export class FileLoaderComponent implements OnInit, OnDestroy {
 
       // Save the parsed data to localStorage
       localStorage.setItem('csvData', JSON.stringify(this.csvData));
+      localStorage.setItem('csvContent', csvContent);
     };
     reader.readAsText(file);
   }
@@ -75,12 +78,7 @@ export class FileLoaderComponent implements OnInit, OnDestroy {
       next: () => {
         alert('File uploaded successfully!');
         this.loading = false;
-        this.csvData = []; // Clear the table after upload
-        this.selectedFile = null;
-
-        // Clear the saved state
-        localStorage.removeItem('csvData');
-        localStorage.removeItem('selectedFileName');
+        this.clearData(); // Clear the data after successful upload
       },
       error: (err) => {
         console.error('Error uploading file:', err);

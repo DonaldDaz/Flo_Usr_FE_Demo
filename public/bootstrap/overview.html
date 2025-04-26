@@ -1,0 +1,87 @@
+<!-- Bootstrap Educational Examples -->
+
+<!-- Bootstrap Key Components Overview -->
+<!--
+Component           | Function
+--------------------|-------------------------------------------------------------
+Ready-made CSS      | Classes for layout (container, row, col), colors (bg-primary), texts (text-center), etc.
+Grid System         | Divides the screen into 12 flexible columns, adaptable to any device.
+UI Components       | Prebuilt buttons, cards, navbars, modals, and more.
+Utility Classes     | Quick utilities for margin (m-3), padding (p-2), color (text-danger), display (d-flex), etc.
+Automatic Responsiveness | Uses breakpoints (sm, md, lg, xl) to adapt the layout for different screens.
+-->
+
+<!-- 1. Layout - Container -->
+<!-- Creates a centered, fixed-width container -->
+<div class="container">
+    This content is inside a responsive fixed-width container.
+  </div>
+  
+  <!-- 2. Grid System -->
+  <!-- Divides the row into two equal columns -->
+  <div class="container">
+    <div class="row">
+      <div class="col-6">50% width</div>
+      <div class="col-6">50% width</div>
+    </div>
+  </div>
+  
+  <!-- 3. Typography - Text Classes -->
+  <!-- Centers the text and applies a primary color -->
+  <p class="text-center text-primary">
+    This is centered and colored text.
+  </p>
+  
+  <!-- 4. Buttons -->
+  <!-- Creates a styled success button -->
+  <button class="btn btn-success">
+    Success Button
+  </button>
+  
+  <!-- 5. Utilities - Spacing (Margin & Padding) -->
+  <!-- Applies margin and padding utilities -->
+  <div class="m-4 p-3 bg-light">
+    Margin 4 and Padding 3 applied.
+  </div>
+  
+  <!-- 6. Flexbox Utilities -->
+  <!-- Uses Flexbox to arrange and center items horizontally -->
+  <div class="d-flex justify-content-around align-items-center" style="height: 100px;">
+    <div>Item 1</div>
+    <div>Item 2</div>
+    <div>Item 3</div>
+  </div>
+  
+  <!-- 7. Visibility - Display Utilities -->
+  <!-- This element is hidden on small screens and visible from medium screens up -->
+  <div class="d-none d-md-block">
+    Only visible on medium and larger screens.
+  </div>
+  
+  <!-- 8. Components - Cards -->
+  <!-- Creates a pre-styled card component -->
+  <div class="card" style="width: 18rem;">
+    <div class="card-body">
+      <h5 class="card-title">Card title</h5>
+      <p class="card-text">Card content goes here.</p>
+      <a href="#" class="btn btn-primary">Go somewhere</a>
+    </div>
+  </div>
+  
+  <!-- 9. Navbar Component -->
+  <!-- Simple responsive navigation bar -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">Navbar</a>
+  </nav>
+
+  <!-- 10. Responsiveness -->
+  <!-- Column behavior changes across screen sizes -->
+    <div class="container">
+        <div class="row">
+        <div class="col-12 col-md-6 col-lg-4">
+            This box is full width on small screens, half width on medium, and one-third width on large screens.
+        </div>
+        </div>
+    </div>
+  
+  
