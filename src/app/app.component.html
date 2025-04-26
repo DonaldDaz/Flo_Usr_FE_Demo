@@ -1,4 +1,10 @@
+<!-- 
+Intercept the 'sidebarToggle' event emitted by the <navbar> component.
+When the event occurs, it triggers the 'onSidebarToggle()' method in this (parent) component.
+That method is responsible to setting isSidebarOpen to true or false.
+-->
 <navbar class="top-bar" (sidebarToggle)="onSidebarToggle()"></navbar>
+<!-- "open" is added to class attribute of sidebar element if variable isSidebarOpen is true -->
 <sidebar class="top-bar__side-bar" [class.open]="isSidebarOpen"></sidebar>
 <div class="top-bar__content-section">
     <router-outlet></router-outlet>

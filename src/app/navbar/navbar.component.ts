@@ -7,6 +7,10 @@ import { Component, EventEmitter, Output } from '@angular/core';
   styleUrl: './navbar.component.scss'
 })
 export class NavbarComponent {
+  // Event emitter to notify parent component about sidebar toggle
+  // This will emit a boolean value indicating whether the sidebar is open or closed
+  // The parent component can subscribe to this event to perform actions based on the sidebar state
+  // The event is intercepted in app.component.html
   @Output() sidebarToggle = new EventEmitter<boolean>();
 
   toggleSidebar: boolean = false;

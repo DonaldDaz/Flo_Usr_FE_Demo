@@ -13,8 +13,8 @@ export class TableComponent implements OnInit {
   users: User[] = [];
   loading = false;
   formUser: Partial<User> = {};
-  editingUser: User | null = null;
   searchTerm: string = '';
+  editMode: boolean = false;
 
   constructor(private userService: UserService) {}
 
@@ -80,34 +80,55 @@ export class TableComponent implements OnInit {
     });
   }
 
-submitForm(): void {
-  if (this.editingUser?.id) {
-    this.userService.updateUser(this.editingUser.id, this.formUser as User).subscribe({
-      next: (updated) => {
-        this.fetchUsers();
-        this.resetForm();
-      },
-      error: (err) => console.error('Errore aggiornamento', err)
-    });
-  } else {
-    this.userService.createUser(this.formUser as User).subscribe({
-      next: () => {
-        this.fetchUsers();
-        this.resetForm();
-      },
-      error: (err) => console.error('Errore creazione', err)
-    });
+  submitForm(): void {
+    if (this.editMode) {    
+      const firstName = this.formUser.firstName?.trim() || '';
+      const lastName = this.formUser.lastName?.trim() || '';
+  
+      if (!firstName || !lastName) {
+        console.error('Nome e cognome sono obbligatori per cercare l\'utente.');
+        return;
+      }
+  
+      this.userService.search(firstName, lastName).subscribe({
+        next: (results: User[]) => {
+          if (results.length > 1) {
+            alert('Trovati più utenti con lo stesso nome e cognome.');
+            return;
+          }
+          const foundUser = results[0];
+          if (foundUser && foundUser.id !== undefined) {
+            this.userService.updateUser(foundUser.id, this.formUser as User).subscribe({
+              next: () => {
+                this.fetchUsers();
+                this.resetForm();
+              },
+              error: (err) => console.error('Errore aggiornamento', err)
+            });
+          } else {
+            console.error('Utente trovato ma id mancante. Update impossibile.');
+          }
+        },
+        error: (err) => {
+          console.error('Errore nella ricerca utente:', err);
+        }
+      });
+  
+    } else {
+      this.userService.createUser(this.formUser as User).subscribe({
+        next: () => {
+          this.fetchUsers();
+          this.resetForm();
+        },
+        error: (err) => console.error('Errore creazione', err)
+      });
+    }
   }
-}
+  
 
-editUser(user: User): void {
-  this.editingUser = user;
-  this.formUser = { ...user }; // copia profonda per non modificare direttamente
-}
 
 resetForm(): void {
   this.formUser = {};
-  this.editingUser = null;
 }
 
 

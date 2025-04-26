@@ -55,7 +55,22 @@
   </div>
 
 <hr class="my-4" />
-<h4>{{ editingUser?.id ? 'Modifica Utente' : 'Nuovo Utente' }}</h4>
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h4>{{ editMode ? 'Modifica Utente' : 'Crea Utente' }}</h4>
+
+  <div class="form-check form-switch">
+    <input
+      class="form-check-input"
+      type="checkbox"
+      id="editModeSwitch"
+      [(ngModel)]="editMode"
+    />
+    <label class="form-check-label" for="editModeSwitch">
+      {{ editMode ? 'Edit Mode ON' : 'Edit Mode OFF' }}
+    </label>
+  </div>
+</div>
+
 
 <form (ngSubmit)="submitForm()" #userForm="ngForm" class="row g-3 mt-2">
   <div class="col-md-6">
@@ -77,7 +92,7 @@
 
   <div class="col-12 d-flex justify-content-end gap-2 mb-4">
     <button type="submit" class="btn btn-primary">
-      {{ editingUser?.id ? 'Aggiorna' : 'Salva' }}
+      {{ editMode ? 'Aggiorna' : 'Salva' }}
     </button>
     <button type="button" class="btn btn-secondary" (click)="resetForm()">Annulla</button>
   </div>
